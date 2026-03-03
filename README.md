@@ -28,7 +28,7 @@ the calculated values are displayed using serial monitoring or display module
 -- smart iot based solutions 
 **##CONTRIBUTORS**
 -- ABHISHEK
--- LAHARI(@Lahari-github-username)   
+-- LAHARI(@Lahari9942-github-username)   
 
 
 
