@@ -1,0 +1,54 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// Sensor pins
+int currentPin = A0;
+int voltagePin = A1;
+
+// Relay pin
+int relayPin = 8;
+
+// Variables
+float voltage = 0;
+float current = 0;
+float power = 0;
+
+void setup() {
+  lcd.init();          // ✅ Initialize I2C LCD
+  lcd.backlight();     // ✅ Turn on backlight
+  
+  pinMode(relayPin, OUTPUT);
+  digitalWrite(relayPin, LOW); // Relay OFF initially
+}
+
+void loop() {
+
+  int currentValue = analogRead(currentPin);
+  int voltageValue = analogRead(voltagePin);
+
+  voltage = (voltageValue * 5.0 / 1023.0) * 50;
+  current = (currentValue * 5.0 / 1023.0) * 10;
+
+  power = voltage * current;
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("V:");
+  lcd.print(voltage, 1);   // 1 decimal
+  lcd.print(" I:");
+  lcd.print(current, 1);
+
+  lcd.setCursor(0, 1);
+  lcd.print("P:");
+  lcd.print(power, 1);
+
+  if (power > 100) {
+    digitalWrite(relayPin, HIGH);
+  } else {
+    digitalWrite(relayPin, LOW);
+  }
+
+  delay(1000);
+}
